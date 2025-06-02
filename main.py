@@ -1,2 +1,7 @@
-with open('./test/data1.csv', 'r') as file:
-    print(file.read().split('\n'))
+from core.parse_header import parse_header
+
+
+with open('./test/data2.csv', 'r') as file:
+    print(parse_header(file.read().split('\n')[0]))
+   
+    
