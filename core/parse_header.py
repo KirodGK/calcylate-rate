@@ -8,6 +8,14 @@ header_template: dict = {
     'rate': 0
 }
 
+FIELD_ALIASES = {
+    'id': ['id'],
+    'name': ['name'],
+    'email': ['email'],
+    'department': ['department'],
+    'hours_worked': ['hours_worked'],
+    'rate': ['hourly_rate', 'rate', 'salary']
+}
 # def parse_header(data):
 #     if (data == ''):
 #         return 'Нет данных'
@@ -16,10 +24,26 @@ header_template: dict = {
 
 
 
-def parse_header(line):
+# def parse_header(line):
+#     if not line.strip():
+#         return 'Нет данных'
+    
+#     fields = line.strip().split(',')
+#     positions = {field: index for index, field in enumerate(fields) if field in header_template}
+#     return positions
+
+
+def parse_header(line: str):
     if not line.strip():
         return 'Нет данных'
     
-    fields = line.strip().split(',')
-    positions = {field: index for index, field in enumerate(fields) if field in header_template else }
-    return positions
+    fields = [f.strip().lower() for f in line.strip().split(',')]  # нормализуем
+    
+    result = {}
+    for logical_name, aliases in FIELD_ALIASES.items():
+        for alias in aliases:
+            if alias in fields:
+                result[logical_name] = fields.index(alias)
+                break  # нашли — выходим из цикла
+    
+    return result
