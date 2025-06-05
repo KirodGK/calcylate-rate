@@ -1,4 +1,3 @@
-import pytest
 from core.parse_header import parse_header
 
 
@@ -10,7 +9,7 @@ def test_parse_header_with_valid_aliases():
     assert result['id'] == 5
     assert result['name'] == 0
     assert result['email'] == 1
-    assert result['department'] == 2  
+    assert result['department'] == 2
     assert result['hours_worked'] == 3
     assert result['rate'] == 4
 

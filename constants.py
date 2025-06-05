@@ -1,4 +1,6 @@
-FIELD_ALIASES = {
+from typing import Dict, List
+
+FIELD_ALIASES: Dict[str: List[str]] = {
     'id': ['id'],
     'name': ['name'],
     'email': ['email'],

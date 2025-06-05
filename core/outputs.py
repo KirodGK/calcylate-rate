@@ -1,18 +1,10 @@
-from prettytable import PrettyTable
+from typing import List, Dict, Any
+from argparse import Namespace
 
 
-def pretty_output(results: list[dict]):
-    table = PrettyTable()
-    columns = ['name', 'hours', 'department', 'rate', 'payout']
-    table.field_names = columns
-    table.align = 'l'
-    for row in results:
-        table.add_row([row.get(col, '') for col in columns])
-
-    print(table)
-
-
-def report(args, results, header):
+def report(args: Namespace,
+           results: List[Dict[str, Any]],
+           header: List[str]) -> None:
     try:
         with open(f'{args.report}.csv', 'w', encoding='utf-8') as file:
             file.write(','.join(header) + '\n')
@@ -25,29 +17,32 @@ def report(args, results, header):
         print('Ошибки при записи отсчёта в файл.')
 
 
-def preview(results: list[dict], header: list[str]):
-    maxLenHeaders = {}
+def preview(results: List[Dict[str, Any]],
+            header: List[str]) -> None:
+    maxLenHeaders: Dict[str, int] = {}
     for col in header:
         values = [row.get(col) for row in results]
         if values:
             maxLenHeaders[col] = max(len(str(val)) for val in values + [col])
 
-    formatHeaders = [formatColumn(newHeader, maxLenHeaders)
-                     for newHeader in header]
+    formatHeaders = [formatColumn(newHeader,
+                                  maxLenHeaders) for newHeader in header]
     print('  '.join(formatHeaders))
     for row in results:
         print(formatRow(row, maxLenHeaders, header))
 
 
-def formatColumn(header, maxLenHeader):
-    lenHeader = len(str(header))
+def formatColumn(header: str, maxLenHeader: Dict[str, int]) -> str:
+    lenHeader = len(header)
     getLen = maxLenHeader[header]
-    if (lenHeader < getLen):
-        header = header + ' ' * (getLen - lenHeader) 
+    if lenHeader < getLen:
+        header += ' ' * (getLen - lenHeader)
     return header
 
 
-def formatRow(row, maxLenHeader, header):
+def formatRow(row: Dict[str, Any],
+              maxLenHeader: Dict[str, int],
+              header: List[str]) -> str:
     line = ''
     for key in header:
         value = row.get(key, '')

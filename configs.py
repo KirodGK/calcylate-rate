@@ -1,7 +1,9 @@
 import argparse
+from typing import Dict, Callable
 
 
-def configure_argument_parser(available_modes):
+def configure_argument_parser(available_modes: Dict[str, Callable]
+                              ) -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Калькулятор зарплаты')
     parser.add_argument(
         'mode',
