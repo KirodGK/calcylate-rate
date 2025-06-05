@@ -8,14 +8,14 @@ def counter(data: list[list[str]], header: dict) -> list[dict]:
             splitDataString = dataString.split(',')
             name = splitDataString[header['name']]
             department = splitDataString[header['department']]
-            hours = float(splitDataString[header['hours_worked']])
-            rate = float(splitDataString[header['rate']])
+            hours = int(splitDataString[header['hours_worked']])
+            rate = int(splitDataString[header['rate']])
             payout = hours * rate
 
-            formatted.append({   
+            formatted.append({
+                'department': department,
                 'name': name,
                 'hours': hours,
-                'department': department,
                 'rate': rate,
                 'payout': payout
             })

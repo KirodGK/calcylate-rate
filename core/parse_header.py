@@ -1,4 +1,4 @@
-from ..constants import FIELD_ALIASES
+from constants import FIELD_ALIASES
 
 header_template: dict = {
     'id': 0,

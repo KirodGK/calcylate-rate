@@ -1,46 +1,40 @@
-from core.parse_header import parse_header
-from utils import counter
-from core.outputs import pretty_output
+
 from configs import configure_argument_parser
-
-
-def calk(files):
-    all_data = []
-    for path in files:
-        with open(path, 'r') as file:
-            lines = file.read().split('\n')
-            if not lines:
-                continue
-            header = parse_header(lines[0])
-            data = counter(data=lines[1:], header=header)
-            all_data.extend(data)
-    return all_data
+from core.count_salary import count_salary
+from core.outputs import preview, report
 
 
 MODE_TO_FUNCTION = {
-    'calk': calk,
+    'calk': count_salary,
 }
 
 
 def main():
     arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())
+    try:
+        args = arg_parser.parse_args()
+    except SystemExit:
+        print("Неверные аргументы. Используйте -h для помощи.")
+        exit()
     args = arg_parser.parse_args()
     parser_mode = args.mode
     function = MODE_TO_FUNCTION.get(parser_mode)
     if function is not None:
         results = function(args.files)
+        if not results:
+            print('Нет данных')
+            exit()
+        header = ['department', 'name', 'hours', 'rate', 'payout']
         if args.report:
-            with open(f'{args.report}.csv', 'w', encoding='utf-8') as file:
-                header = ', '.join(results[0].keys())
-                file.write(header + '\n')
-                print(header)
-                for row in results:
-                    print(row)
-                    line = '{department}, {name}, {hours}, {rate}, {payout}'.format(**row)
-                    file.write(line + '\n')
-
+            report(args, results, header)
         else:
-            pretty_output(results)
+            print('Предварительный отчёт')
+            preview(results, header)
+            print(
+                "Для сохранения отчёта повторите команду с ключом \"--report\""
+                " и введите названием отчёта.\n"
+                "Для дополнительной информации введите \"--h\""
+            )
 
 
 if __name__ == '__main__':
