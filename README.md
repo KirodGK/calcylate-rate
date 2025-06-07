@@ -37,3 +37,30 @@ id,email,name,department,hours_worked,hourly_rate
   ```bash
   py main.py calc data1.csv --report MyFile
   ```
+
+**Тестирование**
+
+- Для проведение автоматических тестов потребуется создать и актировать виртуальное окружение.
+
+```bash
+py -m venv venv
+```
+
+```bash
+.\venv\Script\activate
+```
+
+- Далее установить модуль pytest из requirements.txt
+
+```bash
+pip install -r .\requirements.txt
+```
+
+- Находясь в главной директории проекта прописать команду
+
+```bash
+pytest
+```
+
+**Разработчик**
+[text](https://github.com/KirodGK)
