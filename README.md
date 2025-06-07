@@ -63,4 +63,4 @@ pytest
 ```
 
 **Разработчик**
-[text](https://github.com/KirodGK)
+[KirodGK](https://github.com/KirodGK)
