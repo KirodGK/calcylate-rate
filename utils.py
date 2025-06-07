@@ -1,8 +1,8 @@
-from typing import List, Dict
+from typing import List, Dict, Union
 
 
 def counter(data: List[str],
-            header: Dict[str, int]) -> List[Dict[str, int | str]]:
+            header: Dict[str, int]) -> List[Dict[str, Union[int, str]]]:
     formatted = []
     for dataString in data:
         try:
